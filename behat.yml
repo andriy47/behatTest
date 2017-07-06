@@ -1,6 +1,7 @@
 default:
     extensions:
         Behat\MinkExtension:
-            base_url: https://www.wikipedia.org
+            browser_name: chrome
+            base_url: http://fe08bkl-gs-tme.prosodie.es
             goutte: ~
-            selenium2: ~
+            selenium2: ~  

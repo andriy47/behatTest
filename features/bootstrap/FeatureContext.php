@@ -9,56 +9,65 @@ use Behat\Gherkin\Node\PyStringNode,
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\MinkExtension\Context\MinkContext;
-
-//
-// Require 3rd-party libraries here:
-//
-//   require_once 'PHPUnit/Autoload.php';
-//   require_once 'PHPUnit/Framework/Assert/Functions.php';
-//
-
+ 
 /**
  * Features context.
  */
+
+
 class FeatureContext  extends MinkContext implements Context, SnippetAcceptingContext
 {
     /**
      * Initializes context.
-     * Every scenario gets it's own context object.
-     *
+     * Every scenario gets it's own context object. 
+     */
+    /**
+    *@var array
+    **/
+    private $namesId;
+    /**
      * @param array $parameters context parameters (set them up through behat.yml)
      */
     public function __construct()
     {
-        // Initialize your context here
+    $this->namesId = [
+            "Acceso_Clientes" => "#home_acceso_clientes",
+            "Con_usuario_actual_app" => "#my-app-user",
+            "phoneNumber" => "phoneNumber",
+            "password" => "password",
+            "Iniciar_session" => "#authButton",
+            "Cerrar" => "a[id^='popup_close_profileAdvice']",
+        ];
+    
+    } 
+    /**
+     * @When I click the :arg1 element
+     */
+    public function iClickTheElement($selector)
+    {
+        $page = $this->getSession()->getPage();
+        $element = $page->find('css', $this->namesId[$selector]);
+
+        if (empty($element)) {
+            throw new Exception("No html element found for the selector ('$selector')");
+        }
+
+        $element->click();
     }
 
     /**
-     * @When I fill :arg1 with :arg2
+     * @When I wait :arg1
      */
+    public function iWait($arg1)
+    {
+         $this->getSession()->wait($arg1, "$('.suggestions-results').children().length > 0"); 
+    }
+
+    /**
+    * @When I fill :arg1 with :arg2
+    */
     public function iFillWhit($arg1, $arg2)
     {
         //throw new PendingException();
-    }
-
-
-    /**
-     * @When I wait for the suggestion box to appear
-     */
-    public function iWaitForTheSuggestionBoxToAppear()
-    {
-         $this->getSession()->wait(5000, "$('.suggestions-results').children().length > 0");   
-    }
-
-//
-// Place your definition and hook methods here:
-//
-//    /**
-//     * @Given /^I have done something with "([^"]*)"$/
-//     */
-//    public function iHaveDoneSomethingWith($argument)
-//    {
-//        doSomethingWith($argument);
-//    }
-//
+    } 
 }

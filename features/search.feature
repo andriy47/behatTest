@@ -1,9 +1,23 @@
 Feature: Search
 
 	@javascript
-	Scenario: Searching for a page that does exist
-		Given I am on "/wiki/Main_Page"
-		When I fill "search" with "Glory Driven Development"
-		And I wait for the suggestion box to appear
-		And I click the "searchButton" element
-		Then I should see "Search results"
+	Scenario: Searching a home page mimovistar
+		Given I am on "/newmimovistar/index/indexco" 
+		When I wait "1500"
+
+		When I click the "Acceso_Clientes" element 
+		When I wait "3000"
+
+		When I click the "Con_usuario_actual_app" element
+		When I wait "1000"
+
+		When I fill in "phoneNumber" with "662224002"
+		When I fill in "password" with "mimovistar"
+		When I wait "500"
+
+		When I click the "Iniciar_session" element
+		When I wait "10000"
+
+		When I click the "Cerrar" element
+		When I wait "5000"
+		
